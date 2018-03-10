@@ -110,7 +110,7 @@
                 center: [-6, 35],
                 zoom: 6,
                 minZoom: 6,
-                maxZoom: 19,
+                maxZoom: 15,
                 zoomControl: false,
                 maxBounds: [
                     [-13, 26],
@@ -124,12 +124,12 @@
         }).addTo(map);
 
         let osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
+            maxZoom: 16,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
         let topo = L.tileLayer("http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
+            maxZoom: 15,
             attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
         });
 
@@ -157,7 +157,7 @@
             "Aerial Imagery": ae
         };
 
-        let vecTileLayer = L.vectorGrid.protobuf("data/tiles/{z}/{x}/{y}.pbf", {
+        let vecTileLayer = L.vectorGrid.protobuf("https://www.zimf.de/mbtileserver/services/maptz/tiles/{z}/{x}/{y}.pbf", {
                 rendererFactory: L.canvas.tile,
                 vectorTileLayerStyles: {
                     cluster: function(prop, zoom) {
@@ -445,24 +445,9 @@
             "Priority Clusters": markers
         };
         L.control.layers(baseMaps, overlayMaps).addTo(map);
+        map.on("layeradd",function (){vecTileLayer.bringToFront();});
         map.fireEvent("filterchange", currentfilter);
 
-        //        //add watermark
-        //        L.Control.Watermark = L.Control.extend({
-        //            onAdd: function(map) {
-        //                let img = L.DomUtil.create('img');
-        //                img.src = 'images/watermark.gif';
-        //                img.style.width = '350px';
-        //                return img;
-        //            },
-        //            onRemove: function(map) {}
-        //        });
-        //        L.control.watermark = function(opts) {
-        //            return new L.Control.Watermark(opts);
-        //        }
-        //        L.control.watermark({
-        //            position: 'bottomright'
-        //        }).addTo(map);
     </script>
 </body>
 
